@@ -1,4 +1,5 @@
 NAME    = libasm.a
+TEST_NAME	= test;
 
 ASM     = src/ft_strlen.s src/ft_strcpy.s src/ft_strcmp.s src/ft_write.s src/ft_read.s src/ft_strdup.s
 
@@ -12,11 +13,8 @@ ARFLAGS = rcs
 
 CFLAGS  = -Wall -Wextra -Werror
 
-# Optional: For testing
-TEST    = main
 TEST_SRC = main.c
 TEST_OBJS = $(OBJS)
-TEST_EXE = $(TEST)
 
 all: $(NAME)
 
@@ -26,15 +24,15 @@ $(NAME): $(OBJS)
 %.o: %.s
 	$(NASM) $(NASMFLAGS) $< -o $@
 
-$(TEST): $(NAME) $(TEST_SRC)
-	clang $(CFLAGS) $(TEST_SRC) $(NAME) -o $(TEST_EXE)
+test: $(NAME) $(TEST_SRC)
+	clang $(CFLAGS) $(TEST_SRC) $(NAME) -o $(TEST_NAME)
 
 clean:
 	rm -f $(OBJS)
 
 fclean: clean
-	rm -f $(NAME) $(TEST_EXE)
+	rm -f $(NAME) $(TEST_NAME)
 
 re: fclean all
 
-.PHONY: all clean fclean re main
+.PHONY: all clean fclean re test
